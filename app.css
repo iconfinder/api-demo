@@ -1,0 +1,50 @@
+html,
+body {
+    min-height: 100%;
+}
+
+main,
+aside {
+    position: absolute;
+    height: 100%;
+}
+
+header {
+    height: 25px;
+    padding: 30px;
+}
+
+main {
+    width: 70%;
+}
+
+main header {
+    background: #16984C;
+}
+
+main header h1 {
+    color: #fff;
+    margin: 0;
+    font-size: 24px;
+    float: left;
+}
+
+main header form {
+    float: right;
+}
+
+aside {
+    width: 30%;
+    right: 0;
+    background: #222;
+}
+
+aside header {
+    background: #000;
+}
+
+aside header h3 {
+    color: #999;
+    margin: 0;
+    font-weight: normal;
+}

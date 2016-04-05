@@ -16,6 +16,8 @@ var app = {
     },
 
     search: function(query) {
+        $('.results').hide().empty();
+
         $.getJSON(this.api('icons/search?query='+query+'&count=30&vector=true'), function(result) {
             app.renderResults(result);
             app.consoleLog({
@@ -31,20 +33,22 @@ var app = {
         var template = $('#result-template').html();
         var compile = _.template(template);
 
-        $.each(data.icons, function(index, icon) {
-            var file = _.last(icon.raster_sizes);
-            html += compile({
-                url: file.formats[0].preview_url,
-                icon_id: icon.icon_id
+        if( data.total_count > 0 ) {
+            $.each(data.icons, function(index, icon) {
+                var file = _.last(icon.raster_sizes);
+                html += compile({
+                    url: file.formats[0].preview_url,
+                    icon_id: icon.icon_id
+                });
             });
-        });
 
-        $('.results').html(html).fadeIn();
+            $('.results').html(html).fadeIn();
 
-        this.dragAndDrop();
+            this.makeDraggable();
+        }
     },
 
-    dragAndDrop: function() {
+    makeDraggable: function() {
         $('.results').find('img').draggable({
             appendTo: 'main',
             containment: 'main',
@@ -57,7 +61,9 @@ var app = {
                 $('.results').fadeOut();
             }
         });
+    },
 
+    makeDroppable: function() {
         $('.diagram .placeholder').droppable({
             accept: '.results img',
             hoverClass: 'active',
@@ -76,14 +82,14 @@ var app = {
     },
 
     bindEvents: function() {
-        $('#search').on('submit', function(e) {
-            e.preventDefault();
-
+        $('#search').on('submit', function() {
             var query = $(this).find('#query').val().trim().toString();
 
             if( query.length > 0 ) {
                 app.search(query);
             }
+
+            return false;
         });
 
         $('#search input').on('focus', function() {
@@ -94,6 +100,7 @@ var app = {
     },
 
     init: function() {
+        this.makeDroppable();
         this.bindEvents();
     }
 };

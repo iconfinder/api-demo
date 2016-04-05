@@ -84,14 +84,18 @@ main header button {
     border: 2px dashed #ddd;
 }
 
-.diagram .placeholder.active {
-    background: #d6f0d5;
-    border: 2px dashed #b2d7b1;
-}
-
 .diagram .placeholder.filled {
     background: #f3f3f3;
-    border: 0;
+    border-color: #f3f3f3;
+}
+
+.diagram .placeholder.active {
+    background: #d6f0d5;
+    border-color: #b2d7b1;
+}
+
+.diagram .placeholder.active img {
+    opacity: 0.6;
 }
 
 .diagram img {

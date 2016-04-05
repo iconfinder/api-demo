@@ -39,7 +39,7 @@ var app = {
             });
         });
 
-        $('.results').html(html).show();
+        $('.results').html(html).fadeIn();
 
         this.dragAndDrop();
     },
@@ -55,9 +55,6 @@ var app = {
             helper: 'clone',
             start: function() {
                 $('.results').fadeOut();
-            },
-            stop: function() {
-                $('.results').fadeIn();
             }
         });
 
@@ -79,14 +76,20 @@ var app = {
     },
 
     bindEvents: function() {
-        $('#search').on('submit', function() {
+        $('#search').on('submit', function(e) {
+            e.preventDefault();
+
             var query = $(this).find('#query').val().trim().toString();
 
             if( query.length > 0 ) {
                 app.search(query);
             }
+        });
 
-            return false;
+        $('#search input').on('focus', function() {
+            if( $(this).val().trim().length > 0 && $('.results').not(':empty') ) {
+                $('.results').fadeIn();
+            }
         });
     },
 

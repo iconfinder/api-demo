@@ -26,11 +26,14 @@ main {
 
 main header {
     background: #16984C;
+    padding-top: 20px;
+    padding-bottom: 30px;
 }
 
 main header h1 {
     color: #fff;
     margin: 0;
+    margin-top: 3px;
     font-size: 24px;
     float: left;
 }
@@ -178,4 +181,43 @@ aside header h3 {
 #console .log pre:not(:last-child) {
     padding-bottom: 15px;
     border-bottom: 1px solid #333;
+}
+
+.toggle-console {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    padding: 4px 10px;
+}
+
+@media (max-width: 1024px) {
+    aside {
+        display: none;
+        position: fixed;
+        width: 100%;
+    }
+
+    aside.active {
+        display: block;
+        z-index: 2000;
+    }
+
+    main {
+        width: 100%;
+    }
+
+    main header form {
+        position: relative;
+        right: 30px;
+    }
+
+    .toggle-console {
+        display: inline-block;
+        z-index: 5000;
+    }
 }

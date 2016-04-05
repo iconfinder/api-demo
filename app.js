@@ -97,6 +97,10 @@ var app = {
                 $('.results').fadeIn();
             }
         });
+
+        $('.toggle-console').on('click', function() {
+            $('aside').toggleClass('active');
+        });
     },
 
     init: function() {

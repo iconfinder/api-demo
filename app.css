@@ -63,6 +63,10 @@ main header button {
     padding-right: 15px;
 }
 
+main header button:hover {
+    color: #666;
+}
+
 #canvas {
     padding: 100px 50px;
 }

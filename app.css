@@ -3,19 +3,25 @@ body {
     min-height: 100%;
 }
 
+.hide {
+    display: none;
+}
+
 main,
 aside {
     position: absolute;
     height: 100%;
+    overflow: auto;
 }
 
 header {
     height: 25px;
-    padding: 30px;
+    padding: 25px 30px;
 }
 
 main {
-    width: 70%;
+    width: 65%;
+    background: #f3f3f3;
 }
 
 main header {
@@ -31,10 +37,105 @@ main header h1 {
 
 main header form {
     float: right;
+    position: relative;
+}
+
+main header input {
+    border-radius: 50px;
+    font-size: 14px;
+    border: 0;
+    padding: 10px 15px;
+    width: 200px;
+}
+
+main header input:focus {
+    outline: none;
+}
+
+main header button {
+    border: 0;
+    background: 0;
+    color: #999;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 9px;
+    padding-right: 15px;
+}
+
+#canvas {
+    padding: 100px 50px;
+}
+
+.diagram {
+    width: 500px;
+    height: 500px;
+    border: 2px dashed #ccc;
+    margin: 0 auto;
+    position: relative;
+}
+
+.diagram .placeholder {
+    position: absolute;
+    width: 128px;
+    height: 128px;
+    background: #eee;
+    border-radius: 64px;
+    border: 2px dashed #ddd;
+}
+
+.diagram .placeholder.active {
+    background: #d6f0d5;
+    border: 2px dashed #b2d7b1;
+}
+
+.diagram .placeholder.filled {
+    background: #f3f3f3;
+    border: 0;
+}
+
+.diagram img {
+    width: 128px;
+}
+
+.diagram #figure-1 {
+    top: -64px;
+    left: -64px;
+}
+
+.diagram #figure-2 {
+    top: -64px;
+    right: -64px;
+}
+
+.diagram #figure-3 {
+    bottom: -64px;
+    left: -64px;
+}
+
+.diagram #figure-4 {
+    bottom: -64px;
+    right: -64px;
+}
+
+.results {
+    width: 550px;
+    position: absolute;
+    right: 30px;
+    top: 70px;
+    background: #fff;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    border-radius: 3px;
+    z-index: 1000;
+}
+
+.results img {
+    margin: 10px;
+    vertical-align: middle;
 }
 
 aside {
-    width: 30%;
+    width: 35%;
     right: 0;
     background: #222;
 }
@@ -47,4 +148,25 @@ aside header h3 {
     color: #999;
     margin: 0;
     font-weight: normal;
+}
+
+#console .log {
+    color: #aaa;
+    font-family: monospace;
+    font-size: 12px;
+    overflow: auto;
+}
+
+#console .log h4,
+#console .log pre {
+    padding: 0 20px;
+}
+
+#console .log h4 {
+    color: #fff;
+}
+
+#console .log pre:not(:last-child) {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #333;
 }

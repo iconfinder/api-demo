@@ -13,13 +13,24 @@
             <header>
                 <h1>Sample Diagram Application</h1>
 
-                <form>
-                    <input type="text" placeholder="Search for icons...">
-                    <button type="button">Search</button>
+                <form id="search">
+                    <input type="text" id="query" placeholder="Search for icons...">
+                    <button type="submit">O</button>
                 </form>
             </header>
 
-            <div class="canvas">
+            <div class="results hide">
+            </div>      <!-- .results -->
+
+            <div id="canvas">
+
+                <div class="diagram">
+                    <div class="placeholder" id="figure-1"></div>
+                    <div class="placeholder" id="figure-2"></div>
+                    <div class="placeholder" id="figure-3"></div>
+                    <div class="placeholder" id="figure-4"></div>
+                </div>
+
             </div>      <!-- .canvas -->
         </main>
 
@@ -32,10 +43,22 @@
             <div class="log">
             </div>      <!-- .log -->
         </aside>
-        
+
+
+        <script type="text/template" id="result-template">
+            <img src="{{ url }}" alt="" width="64">
+        </script>
+
+        <script type="text/template" id="log-template">
+            <h4>Request:</h4>
+            <pre>{{ type }} {{ url }}</pre>
+            <h4>Response:</h4>
+            <pre>{{ response }}</pre>
+        </script>
 
         <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
         <script src="app.js"></script>
 
     </body>

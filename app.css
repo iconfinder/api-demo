@@ -20,7 +20,7 @@ header {
 }
 
 main {
-    width: 65%;
+    width: 60%;
     background: #f3f3f3;
 }
 
@@ -119,7 +119,8 @@ main header button {
 }
 
 .results {
-    width: 550px;
+    width: 530px;
+    padding: 10px;
     position: absolute;
     right: 30px;
     top: 70px;
@@ -135,7 +136,7 @@ main header button {
 }
 
 aside {
-    width: 35%;
+    width: 40%;
     right: 0;
     background: #222;
 }

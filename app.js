@@ -8,18 +8,21 @@ var app = {
         return 'https://api.iconfinder.com/v2/' + endpoint;
     },
 
+    consoleLog: function(data) {
+        var template = $('#log-template').html();
+        var compile = _.template(template);
+
+        $('#console .log').html(compile(data));
+    },
+
     search: function(query) {
-        $.getJSON(this.api('icons/search?query='+query), function(result) {
-            var template = $('#log-template').html();
-            var compile = _.template(template);
-            var data = {
+        $.getJSON(this.api('icons/search?query='+query+'&count=30&vector=true'), function(result) {
+            app.renderResults(result);
+            app.consoleLog({
                 type: this.type,
                 url: this.url,
                 response: JSON.stringify(result, null, 2)
-            };
-
-            $('#console .log').html(compile(data));
-            app.renderResults(result);
+            });
         });
     },
 
@@ -30,7 +33,10 @@ var app = {
 
         $.each(data.icons, function(index, icon) {
             var file = _.last(icon.raster_sizes);
-            html += compile({ url: file.formats[0].preview_url });
+            html += compile({
+                url: file.formats[0].preview_url,
+                icon_id: icon.icon_id
+            });
         });
 
         $('.results').html(html).show();
@@ -40,12 +46,19 @@ var app = {
 
     dragAndDrop: function() {
         $('.results').find('img').draggable({
+            appendTo: 'main',
             containment: 'main',
             addClasses: false,
             scroll: false,
             revert: 'invalid',
             revertDuration: 200,
-            helper: 'clone'
+            helper: 'clone',
+            start: function() {
+                $('.results').fadeOut();
+            },
+            stop: function() {
+                $('.results').fadeIn();
+            }
         });
 
         $('.diagram .placeholder').droppable({
@@ -53,7 +66,14 @@ var app = {
             hoverClass: 'active',
             drop: function(event, ui) {
                 var newElement = $(ui.draggable).clone();
+
                 $(this).addClass('filled').html(newElement);
+
+                app.consoleLog({
+                    type: 'GET',
+                    url: app.api('icons/' + newElement.data('icon-id')),
+                    response: 'Icon file download'
+                });
             }
         });
     },

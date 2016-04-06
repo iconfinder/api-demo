@@ -11,27 +11,60 @@
     <body>
 
         <main>
-            <header>
-                <h1>Sample Diagram Application</h1>
-
-                <form id="search">
-                    <input type="text" id="query" placeholder="Search for icons...">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
-            </header>
-
-            <div class="results hide">
-            </div>      <!-- .results -->
-
-            <div id="canvas">
-
-                <div class="diagram">
-                    <div class="placeholder" id="figure-1"></div>
-                    <div class="placeholder" id="figure-2"></div>
-                    <div class="placeholder" id="figure-3"></div>
-                    <div class="placeholder" id="figure-4"></div>
+            <header class="clearfix">
+                <div class="pull-left">
+                    <img src="logo.svg" alt="Iconfinder" height="30">
+                    <h1>API demo</h1>
                 </div>
 
+                <div class="pull-right">
+                    <ul>
+                        <li><a href="https://www.iconfinder.com/api-solution#api-pricing">Pricing</a></li>
+                        <li><a href="http://developer.iconfinder.com/">Documentation</a></li>
+                        <li><a href="mailto:api@iconfinder.com">Contact</a></li>
+                    </ul>
+                </div>
+            </header>
+
+
+            <div id="canvas">
+                <div class="app-frame">
+                    <div class="app-header">
+                        <div class="stop-light">
+                            <i class="fa fa-circle-o"></i>
+                            <i class="fa fa-circle-o"></i>
+                            <i class="fa fa-circle-o"></i>
+                        </div>
+
+                        <h5>Sample Diagram Application</h5>
+                    </div>      <!-- .app-header -->
+
+                    <div class="app-body">
+                        <div class="toolbox">
+                            <form id="search" class="clearfix">
+                                <div class="pull-left">
+                                    <input type="text" id="query" placeholder="Search for icons...">
+                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                </div>
+
+                                <div class="pull-right">
+                                    <label><input type="checkbox"> Premium only</label>
+                                    <label><input type="checkbox"> Vector only</label>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="results hide">
+                        </div>      <!-- .results -->
+
+                        <div class="diagram">
+                            <div class="placeholder" id="figure-1"></div>
+                            <div class="placeholder" id="figure-2"></div>
+                            <div class="placeholder" id="figure-3"></div>
+                            <div class="placeholder" id="figure-4"></div>
+                        </div>
+                    </div>      <!-- .app-body -->
+                </div>      <!-- .app-frame -->
             </div>      <!-- .canvas -->
         </main>
 

@@ -7,6 +7,20 @@ body {
     display: none;
 }
 
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
 main,
 aside {
     position: absolute;
@@ -21,7 +35,8 @@ header {
 
 main {
     width: 60%;
-    background: #f3f3f3;
+    background: #f9f9f9;
+    color: #fff;
 }
 
 main header {
@@ -31,54 +46,120 @@ main header {
 }
 
 main header h1 {
-    color: #fff;
+    color: #bff2d4;
     margin: 0;
-    margin-top: 3px;
-    font-size: 24px;
+    font-size: 18px;
+    display: inline;
+    vertical-align: 6px;
+}
+
+main ul {
+    list-style: none;
+    margin: 0;
+}
+
+main ul li {
+    display: inline-block;
+}
+
+main ul a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 10px;
+    display: block;
+}
+
+main ul a:hover {
+    color: #bff2d4;
+}
+
+#canvas {
+    padding: 30px;
+}
+
+.app-frame {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.app-header {
+    background: #eee;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+}
+
+.app-header h5 {
+    text-align: center;
+    margin: 0;
+    color: #757575;
+    font-weight: normal;
+}
+
+.app-header .stop-light {
     float: left;
 }
 
-main header form {
-    float: right;
-    position: relative;
+.app-header .stop-light i {
+    font-size: 12px;
+    color: #bbb;
+    vertical-align: 2px;
 }
 
-main header input {
+.app-body {
+    position: relative;
+    background: #fff;
+    border-radius: 0 0 4px 4px;
+    padding-bottom: 100px;
+}
+
+.toolbox {
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+}
+
+#search label {
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    color: #666;
+}
+
+#search input[type="text"] {
     border-radius: 50px;
     font-size: 14px;
-    border: 0;
+    border: 1px solid #ddd;
     padding: 10px 15px;
     width: 200px;
 }
 
-main header input:focus {
+#search input[type="text"]:focus {
     outline: none;
+    border-color: #71c192;
+    box-shadow: 0 0 0 1px #71c192;
 }
 
-main header button {
+#search button {
     border: 0;
     background: 0;
     color: #999;
-    position: absolute;
-    right: 0;
-    top: 0;
     padding: 9px;
-    padding-right: 15px;
+    margin-left: -45px;
 }
 
-main header button:hover {
+#search button:hover {
     color: #666;
-}
-
-#canvas {
-    padding: 100px 50px;
 }
 
 .diagram {
     width: 500px;
-    height: 500px;
+    height: 350px;
     border: 2px dashed #ccc;
-    margin: 0 auto;
+    margin: 100px auto 0;
     position: relative;
 }
 
@@ -86,19 +167,21 @@ main header button:hover {
     position: absolute;
     width: 128px;
     height: 128px;
-    background: #eee;
+    background: #fafafa;
     border-radius: 64px;
     border: 2px dashed #ddd;
+    transition: transform 0.25s;
 }
 
 .diagram .placeholder.filled {
-    background: #f3f3f3;
-    border-color: #f3f3f3;
+    background: #fff;
+    border-color: #fff;
 }
 
 .diagram .placeholder.active {
     background: #d6f0d5;
     border-color: #b2d7b1;
+    transform: scale(1.1);
 }
 
 .diagram .placeholder.active img {
@@ -106,6 +189,7 @@ main header button:hover {
 }
 
 .diagram img {
+    vertical-align: middle;
     width: 128px;
 }
 
@@ -133,10 +217,10 @@ main header button:hover {
     width: 530px;
     padding: 10px;
     position: absolute;
-    right: 30px;
-    top: 70px;
+    left: 15px;
+    top: 60px;
     background: #fff;
-    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
     border-radius: 3px;
     z-index: 1000;
 }
@@ -211,7 +295,7 @@ aside header h3 {
         width: 100%;
     }
 
-    main header form {
+    main header ul {
         position: relative;
         right: 30px;
     }

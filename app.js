@@ -79,9 +79,6 @@ var app = {
             helper: 'clone',
             start: function() {
                 $('.results').fadeOut();
-            },
-            stop: function(event, ui) {
-                console.log(event, ui);
             }
         });
     },

@@ -68,7 +68,7 @@ var app = {
             accept: '.results img',
             hoverClass: 'active',
             drop: function(event, ui) {
-                var newElement = $(ui.draggable).clone();
+                var newElement = $(ui.draggable).clone().removeClass('ui-draggable-handle');
 
                 $(this).addClass('filled').html(newElement);
 
@@ -93,7 +93,10 @@ var app = {
         });
 
         $('#search input').on('focus', function() {
-            if( $(this).val().trim().length > 0 && $('.results').not(':empty') ) {
+            var input = $(this).val().trim();
+            var results = $('.results').children();
+
+            if( input.length > 0 && results.length > 0 ) {
                 $('.results').fadeIn();
             }
         });

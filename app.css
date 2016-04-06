@@ -304,9 +304,8 @@ aside header h5 {
         width: 100%;
     }
 
-    main header ul {
-        position: relative;
-        right: 30px;
+    header {
+        padding-right: 60px;
     }
 
     .toggle-console {

@@ -43,14 +43,16 @@
                         <div class="toolbox">
                             <form id="search" class="clearfix">
                                 <div class="pull-left">
-                                    <input type="text" id="query" placeholder="Search for icons...">
+                                    <input type="text" id="query" name="query" placeholder="Search for icons...">
                                     <button type="submit"><i class="fa fa-search"></i></button>
                                 </div>
 
                                 <div class="pull-right">
-                                    <label><input type="checkbox"> Premium only</label>
-                                    <label><input type="checkbox"> Vector only</label>
+                                    <label><input type="checkbox" name="premium" value="1"> Premium only</label>
+                                    <label><input type="checkbox" name="vector" value="1"> Vector only</label>
                                 </div>
+
+                                <input type="hidden" name="count" value="30">
                             </form>
                         </div>
 

@@ -1,7 +1,3 @@
-_.templateSettings = {
-    interpolate: /\{\{(.+?)\}\}/g
-};
-
 var app = {
     api: function(endpoint) {
         endpoint = endpoint || '';
@@ -15,17 +11,23 @@ var app = {
         $('#console .log').html(compile(data));
     },
 
-    search: function(query) {
-        $('.results').hide().empty();
+    search: function(e) {
+        e.preventDefault();
 
-        $.getJSON(this.api('icons/search?query='+query+'&count=30&vector=true'), function(result) {
-            app.renderResults(result);
-            app.consoleLog({
-                type: this.type,
-                url: this.url,
-                response: JSON.stringify(result, null, 2)
+        if( $(this).find('#query').val().trim().toString().length > 0 ) {
+            var query = $('#search').serialize();
+
+            $.getJSON(app.api('icons/search?' + query), function(result) {
+                app.renderResults(result);
+                app.consoleLog({
+                    type: this.type,
+                    url: this.url,
+                    response: JSON.stringify(result, null, 2)
+                });
             });
-        });
+        }
+
+        $('.results').hide().empty();
     },
 
     renderResults: function(data) {
@@ -48,6 +50,15 @@ var app = {
         }
     },
 
+    toggleResults: function() {
+        var input = $(this).val().trim();
+        var results = $('.results').children();
+
+        if( input.length > 0 && results.length > 0 ) {
+            $('.results').fadeIn();
+        }
+    },
+
     makeDraggable: function() {
         $('.results').find('img').draggable({
             appendTo: 'main',
@@ -59,6 +70,9 @@ var app = {
             helper: 'clone',
             start: function() {
                 $('.results').fadeOut();
+            },
+            stop: function(event, ui) {
+                console.log(event, ui);
             }
         });
     },
@@ -82,25 +96,8 @@ var app = {
     },
 
     bindEvents: function() {
-        $('#search').on('submit', function() {
-            var query = $(this).find('#query').val().trim().toString();
-
-            if( query.length > 0 ) {
-                app.search(query);
-            }
-
-            return false;
-        });
-
-        $('#search input').on('focus', function() {
-            var input = $(this).val().trim();
-            var results = $('.results').children();
-
-            if( input.length > 0 && results.length > 0 ) {
-                $('.results').fadeIn();
-            }
-        });
-
+        $('#search').on('submit', app.search);
+        $('#search input').on('focus', app.toggleResults);
         $('.toggle-console').on('click', function() {
             $('aside').toggleClass('active');
         });
@@ -110,6 +107,26 @@ var app = {
         this.makeDroppable();
         this.bindEvents();
     }
+};
+
+_.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g
+};
+
+$.fn.serializeObject = function() {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
 };
 
 $(function() {

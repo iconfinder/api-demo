@@ -105,8 +105,8 @@ var app = {
     },
 
     increaseDownloads: function() {
-        var current = parseInt($('#downloads span').text().trim());
-        $('#downloads span').html(current + 1);
+        var current = parseInt($('#downloads strong').text().trim());
+        $('#downloads strong').html(current + 1);
     },
 
     bindEvents: function() {

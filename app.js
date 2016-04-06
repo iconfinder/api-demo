@@ -92,10 +92,12 @@ var app = {
 
                 $(this).addClass('filled').html(newElement);
 
-                app.consoleLog({
-                    type: 'GET',
-                    url: app.api('icons/' + newElement.data('icon-id')),
-                    response: 'Icon file download'
+                $.getJSON(app.api('icons/' + newElement.data('icon-id')), function(result) {
+                    app.consoleLog({
+                        type: this.type,
+                        url: this.url,
+                        response: JSON.stringify(result, null, 2)
+                    });
                 });
             }
         });

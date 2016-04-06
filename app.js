@@ -19,7 +19,7 @@ var app = {
     search: function(e) {
         e.preventDefault();
 
-        if( $(this).find('#query').val().trim().toString().length > 0 ) {
+        if( $('#search #query').val().trim().toString().length > 0 ) {
             var query = $('#search').serialize();
 
             app.indicateLoading(true);
@@ -106,6 +106,7 @@ var app = {
     bindEvents: function() {
         $('#search').on('submit', app.search);
         $('#search input').on('focus', app.toggleResults);
+        $('#search').on('change', 'input[type="checkbox"]', app.search);
         $('.toggle-console').on('click', function() {
             $('aside').toggleClass('active');
         });

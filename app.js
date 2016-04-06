@@ -93,6 +93,7 @@ var app = {
                 $(this).addClass('filled').html(newElement);
 
                 $.getJSON(app.api('icons/' + newElement.data('icon-id')), function(result) {
+                    app.increaseDownloads();
                     app.consoleLog({
                         type: this.type,
                         url: this.url,
@@ -101,6 +102,11 @@ var app = {
                 });
             }
         });
+    },
+
+    increaseDownloads: function() {
+        var current = parseInt($('#downloads span').text().trim());
+        $('#downloads span').html(current + 1);
     },
 
     bindEvents: function() {

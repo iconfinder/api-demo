@@ -244,10 +244,15 @@ aside header {
     background: #000;
 }
 
-aside header h3 {
+aside header h3,
+aside header h5 {
     color: #999;
     margin: 0;
     font-weight: normal;
+}
+
+aside header h5 {
+    margin-top: 3px;
 }
 
 #console .log {

@@ -45,6 +45,11 @@ main header {
     padding-bottom: 30px;
 }
 
+main header a {
+    color: #fff;
+    text-decoration: none;
+}
+
 main header h1 {
     color: #bff2d4;
     margin: 0;
@@ -63,8 +68,6 @@ main ul li {
 }
 
 main ul a {
-    color: #fff;
-    text-decoration: none;
     padding: 8px 10px;
     display: block;
 }

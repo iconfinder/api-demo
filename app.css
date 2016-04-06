@@ -118,7 +118,7 @@ main ul a:hover {
     padding-bottom: 100px;
 }
 
-.toolbox {
+#search {
     border-bottom: 1px solid #ddd;
     padding: 15px;
 }
@@ -135,7 +135,7 @@ main ul a:hover {
 #search input[type="text"] {
     border-radius: 50px;
     font-size: 14px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     padding: 10px 15px;
     width: 200px;
 }
@@ -162,7 +162,7 @@ main ul a:hover {
     width: 500px;
     height: 350px;
     border: 2px dashed #ccc;
-    margin: 100px auto 0;
+    margin: 90px auto 0;
     position: relative;
 }
 

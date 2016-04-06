@@ -231,6 +231,7 @@ main ul a:hover {
 .results img {
     margin: 10px;
     vertical-align: middle;
+    cursor: move;
 }
 
 aside {

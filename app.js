@@ -66,6 +66,7 @@ var app = {
             addClasses: false,
             scroll: false,
             revert: 'invalid',
+            cursor: 'move',
             revertDuration: 200,
             helper: 'clone',
             start: function() {

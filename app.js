@@ -1,4 +1,6 @@
 var app = {
+    downloads: [],
+
     api: function(endpoint) {
         endpoint = endpoint || '';
         return 'https://api.iconfinder.com/v2/' + endpoint;
@@ -89,11 +91,12 @@ var app = {
             hoverClass: 'active',
             drop: function(event, ui) {
                 var newElement = $(ui.draggable).clone().removeClass('ui-draggable-handle');
+                var iconId = newElement.data('icon-id');
 
                 $(this).addClass('filled').html(newElement);
 
-                $.getJSON(app.api('icons/' + newElement.data('icon-id')), function(result) {
-                    app.increaseDownloads();
+                $.getJSON(app.api('icons/' + iconId), function(result) {
+                    app.increaseDownloads(iconId);
                     app.consoleLog({
                         type: this.type,
                         url: this.url,
@@ -104,9 +107,11 @@ var app = {
         });
     },
 
-    increaseDownloads: function() {
-        var current = parseInt($('#downloads strong').text().trim());
-        $('#downloads strong').html(current + 1);
+    increaseDownloads: function(iconId) {
+        app.downloads.push(iconId);
+        app.downloads = _.uniq(app.downloads);
+
+        $('#downloads strong').html(app.downloads.length);
     },
 
     bindEvents: function() {

@@ -11,14 +11,22 @@ var app = {
         $('#console .log').html(compile(data));
     },
 
+    indicateLoading: function(state) {
+        $('#search button i').toggleClass('fa-circle-o-notch fa-spin', state);
+        $('#search input[type="text"]').attr('disabled', state);
+    },
+
     search: function(e) {
         e.preventDefault();
 
         if( $(this).find('#query').val().trim().toString().length > 0 ) {
             var query = $('#search').serialize();
 
+            app.indicateLoading(true);
+
             $.getJSON(app.api('icons/search?' + query), function(result) {
                 app.renderResults(result);
+                app.indicateLoading(false);
                 app.consoleLog({
                     type: this.type,
                     url: this.url,

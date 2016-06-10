@@ -23,8 +23,12 @@ var app = {
                         Cookies.set('token', token, { expires: expires });
                     }
                 },
-                error: function() {
-                    alert('API Authentication failed');
+                complete: function(result) {
+                    app.consoleLog({
+                        type: this.type,
+                        url: this.url,
+                        response: JSON.stringify(result, null, 2)
+                    });
                 }
             });
         }
@@ -160,7 +164,8 @@ var app = {
 };
 
 _.templateSettings = {
-    interpolate: /\{\{(.+?)\}\}/g
+    interpolate: /\{\{(.+?)\}\}/g,
+    escape: /\{\{-(.*?)\}\}/g
 };
 
 $.fn.serializeObject = function() {

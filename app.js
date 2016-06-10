@@ -4,21 +4,29 @@ var app = {
     auth: function() {
         if( ! Cookies.get('token') ) {
             $.ajax({
-                url: '46.101.165.89:3003',
+                url: 'http://127.0.0.1:3334/refresh',
+		type: 'GET',
                 async: false,
                 success: function(response) {
-                    console.log(response);
-                    //Cookies.set('token', response, { expires: 1 });
+		    var token = JSON.parse(response)["access_token"];
+                    var payload = atob(token.split('.')[1]);
+		    var expires = new Date(JSON.parse(payload).exp * 1000);
+
+                    Cookies.set('token', token, { expires: expires }); 
                 }
             });
         }
 
-        return Cookies.get('token');
+        $.ajaxSetup({
+		headers: {
+			'Authorization': 'JWT ' + Cookies.get('token')
+		}
+	});
     },
 
     api: function(endpoint) {
         endpoint = endpoint || '';
-        return 'https://api.iconfinder.com/v2/' + endpoint;
+        return 'http://api.iconfinder.dev/v2/' + endpoint;
     },
 
     consoleLog: function(data) {

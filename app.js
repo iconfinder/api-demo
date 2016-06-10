@@ -1,6 +1,21 @@
 var app = {
     downloads: [],
 
+    auth: function() {
+        if( ! Cookies.get('token') ) {
+            $.ajax({
+                url: '46.101.165.89:3003',
+                async: false,
+                success: function(response) {
+                    console.log(response);
+                    //Cookies.set('token', response, { expires: 1 });
+                }
+            });
+        }
+
+        return Cookies.get('token');
+    },
+
     api: function(endpoint) {
         endpoint = endpoint || '';
         return 'https://api.iconfinder.com/v2/' + endpoint;
@@ -124,6 +139,7 @@ var app = {
     },
 
     init: function() {
+        this.auth();
         this.makeDroppable();
         this.bindEvents();
     }

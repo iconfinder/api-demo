@@ -24,11 +24,7 @@ var app = {
                     }
                 },
                 complete: function(result) {
-                    app.consoleLog({
-                        type: this.type,
-                        url: this.url,
-                        response: JSON.stringify(result, null, 2)
-                    });
+                    app.consoleLog(this, result);
                 }
             });
         }
@@ -39,9 +35,14 @@ var app = {
         return 'https://api.iconfinder.com/v2/' + endpoint;
     },
 
-    consoleLog: function(data) {
+    consoleLog: function(request, response) {
         var template = $('#log-template').html();
         var compile = _.template(template);
+        var data = {
+            type: request.type,
+            url: request.url,
+            response: JSON.stringify(response, null, 2)
+        };
 
         $('#console .log').html(compile(data));
     },
@@ -62,11 +63,7 @@ var app = {
             $.getJSON(app.api('icons/search?' + query), function(result) {
                 app.renderResults(result);
                 app.indicateLoading(false);
-                app.consoleLog({
-                    type: this.type,
-                    url: this.url,
-                    response: JSON.stringify(result, null, 2)
-                });
+                app.consoleLog(this, result);
             });
         }
 
@@ -130,11 +127,7 @@ var app = {
 
                 $.getJSON(app.api('icons/' + iconId), function(result) {
                     app.increaseDownloads(iconId);
-                    app.consoleLog({
-                        type: this.type,
-                        url: this.url,
-                        response: JSON.stringify(result, null, 2)
-                    });
+                    app.consoleLog(this, result);
                 });
             }
         });

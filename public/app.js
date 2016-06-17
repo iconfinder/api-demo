@@ -4,34 +4,45 @@ var app = {
     auth: function() {
         if( ! Cookies.get('token') ) {
             $.ajax({
-                url: 'http://127.0.0.1:3334/refresh',
-		type: 'GET',
-                async: false,
+                url: '/refresh',
+                type: 'GET',
+                dataType: 'json',
+                global: false,
                 success: function(response) {
-		    var token = JSON.parse(response)["access_token"];
-                    var payload = atob(token.split('.')[1]);
-		    var expires = new Date(JSON.parse(payload).exp * 1000);
+                    if( response.access_token ) {
+                        var token = response.access_token.split('.');
+                        var payload = JSON.parse(atob(token[1]));
+                        var expires = new Date(payload.exp * 1000);
 
-                    Cookies.set('token', token, { expires: expires }); 
+                        $.ajaxSetup({
+                            headers: {
+                                'Authorization': 'JWT ' + token
+                            }
+                        });
+
+                        Cookies.set('token', token, { expires: expires });
+                    }
+                },
+                complete: function(result) {
+                    app.consoleLog(this, result);
                 }
             });
         }
-
-        $.ajaxSetup({
-		headers: {
-			'Authorization': 'JWT ' + Cookies.get('token')
-		}
-	});
     },
 
     api: function(endpoint) {
         endpoint = endpoint || '';
-        return 'http://api.iconfinder.dev/v2/' + endpoint;
+        return 'https://api.iconfinder.com/v2/' + endpoint;
     },
 
-    consoleLog: function(data) {
+    consoleLog: function(request, response) {
         var template = $('#log-template').html();
         var compile = _.template(template);
+        var data = {
+            type: request.type,
+            url: request.url,
+            response: JSON.stringify(response, null, 2)
+        };
 
         $('#console .log').html(compile(data));
     },
@@ -52,11 +63,7 @@ var app = {
             $.getJSON(app.api('icons/search?' + query), function(result) {
                 app.renderResults(result);
                 app.indicateLoading(false);
-                app.consoleLog({
-                    type: this.type,
-                    url: this.url,
-                    response: JSON.stringify(result, null, 2)
-                });
+                app.consoleLog(this, result);
             });
         }
 
@@ -120,11 +127,7 @@ var app = {
 
                 $.getJSON(app.api('icons/' + iconId), function(result) {
                     app.increaseDownloads(iconId);
-                    app.consoleLog({
-                        type: this.type,
-                        url: this.url,
-                        response: JSON.stringify(result, null, 2)
-                    });
+                    app.consoleLog(this, result);
                 });
             }
         });
@@ -138,6 +141,7 @@ var app = {
     },
 
     bindEvents: function() {
+        $(document).on('ready ajaxStart', app.auth);
         $('#search').on('submit', app.search);
         $('#search input').on('focus', app.toggleResults);
         $('#search').on('change', 'input[type="checkbox"]', app.search);
@@ -147,14 +151,14 @@ var app = {
     },
 
     init: function() {
-        this.auth();
         this.makeDroppable();
         this.bindEvents();
     }
 };
 
 _.templateSettings = {
-    interpolate: /\{\{(.+?)\}\}/g
+    interpolate: /\{\{(.+?)\}\}/g,
+    escape: /\{\{-(.*?)\}\}/g
 };
 
 $.fn.serializeObject = function() {

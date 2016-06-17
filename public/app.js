@@ -9,17 +9,18 @@ var app = {
             global: false,
             success: function(response) {
                 if( response.access_token ) {
-                    var token = response.access_token.split('.');
-                    var payload = JSON.parse(atob(token[1]));
+                    var token = response.access_token;
+                    var data = token.split('.');
+                    var payload = JSON.parse(atob(data[1]));
                     var expires = new Date(payload.exp * 1000);
 
-                    Cookies.set('token', response.access_token, { expires: expires });
+                    Cookies.set('token', token, { expires: expires });
 
                     return token;
                 }
             },
             complete: function(result) {
-                app.consoleLog(this, result);
+                app.consoleLog(this, result.responseJSON);
             }
         });
     },
@@ -61,9 +62,9 @@ var app = {
                     'Authorization': 'JWT ' + app.token()
                 },
                 complete: function(result) {
-                    app.renderResults(result);
+                    app.renderResults(result.responseJSON);
                     app.indicateLoading(false);
-                    app.consoleLog(this, result);
+                    app.consoleLog(this, result.responseJSON);
                 }
             });
         }

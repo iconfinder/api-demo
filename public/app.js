@@ -1,38 +1,32 @@
 var app = {
     downloads: [],
 
-    auth: function() {
-        if( ! Cookies.get('token') ) {
-            $.ajax({
-                url: '/refresh',
-                type: 'GET',
-                dataType: 'json',
-                global: false,
-                success: function(response) {
-                    if( response.access_token ) {
-                        var token = response.access_token.split('.');
-                        var payload = JSON.parse(atob(token[1]));
-                        var expires = new Date(payload.exp * 1000);
+    token: function() {
+        return Cookies.get('token') || $.ajax({
+            url: '/refresh',
+            type: 'GET',
+            dataType: 'json',
+            global: false,
+            success: function(response) {
+                if( response.access_token ) {
+                    var token = response.access_token.split('.');
+                    var payload = JSON.parse(atob(token[1]));
+                    var expires = new Date(payload.exp * 1000);
 
-                        $.ajaxSetup({
-                            headers: {
-                                'Authorization': 'JWT ' + token
-                            }
-                        });
+                    Cookies.set('token', response.access_token, { expires: expires });
 
-                        Cookies.set('token', token, { expires: expires });
-                    }
-                },
-                complete: function(result) {
-                    app.consoleLog(this, result);
+                    return token;
                 }
-            });
-        }
+            },
+            complete: function(result) {
+                app.consoleLog(this, result);
+            }
+        });
     },
 
     api: function(endpoint) {
         endpoint = endpoint || '';
-        return 'https://api.iconfinder.com/v2/' + endpoint;
+        return 'http://api.iconfinder.dev/v2/' + endpoint;
     },
 
     consoleLog: function(request, response) {
@@ -60,10 +54,17 @@ var app = {
 
             app.indicateLoading(true);
 
-            $.getJSON(app.api('icons/search?' + query), function(result) {
-                app.renderResults(result);
-                app.indicateLoading(false);
-                app.consoleLog(this, result);
+            $.ajax({
+                url: app.api('icons/search?' + query),
+                type: 'GET',
+                headers: {
+                    'Authorization': 'JWT ' + app.token()
+                },
+                complete: function(result) {
+                    app.renderResults(result);
+                    app.indicateLoading(false);
+                    app.consoleLog(this, result);
+                }
             });
         }
 
@@ -125,9 +126,16 @@ var app = {
 
                 $(this).addClass('filled').html(newElement);
 
-                $.getJSON(app.api('icons/' + iconId), function(result) {
-                    app.increaseDownloads(iconId);
-                    app.consoleLog(this, result);
+                $.ajax({
+                    url: app.api('icons/' + iconId),
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'JWT ' + app.token()
+                    },
+                    complete: function(result) {
+                        app.increaseDownloads(iconId);
+                        app.consoleLog(this, result);
+                    }
                 });
             }
         });
@@ -141,7 +149,7 @@ var app = {
     },
 
     bindEvents: function() {
-        $(document).on('ready ajaxStart', app.auth);
+        $(document).on('ready', app.token);
         $('#search').on('submit', app.search);
         $('#search input').on('focus', app.toggleResults);
         $('#search').on('change', 'input[type="checkbox"]', app.search);

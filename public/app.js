@@ -11,7 +11,14 @@ var app = {
                 if( response.access_token ) {
                     var token = response.access_token.split('.');
                     var payload = JSON.parse(atob(token[1]));
-                    var expires = new Date(payload.exp * 1000);
+
+		    // subtract 2 seconds to take slow reponse times into account
+		    var ttl = (payload.exp - payload.iat) * 1000 - 2 * 1000;
+                    var expires_unix_time = Date.now() + ttl;
+                    var expires = new Date(expires_unix_time);
+
+		    console.log("expires", new Date(expires_unix_time));
+		    console.log("now", new Date(Date.now()));
 
                     Cookies.set('token', response.access_token, { expires: expires });
 
@@ -54,6 +61,8 @@ var app = {
 
             app.indicateLoading(true);
 
+	    console.log(typeof app.token());
+
             $.ajax({
                 url: app.api('icons/search?' + query),
                 type: 'GET',
@@ -61,6 +70,7 @@ var app = {
                     'Authorization': 'JWT ' + app.token()
                 },
                 complete: function(result) {
+		    console.log(result);
                     app.renderResults(result);
                     app.indicateLoading(false);
                     app.consoleLog(this, result);

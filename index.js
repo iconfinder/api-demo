@@ -23,9 +23,8 @@ app.get('/refresh', function (req, res) {
 				res.send(body);
         		} else {
 				console.log('error');
-				console.log(response);
 			}
-    		}
+    	}
 	);
 
 });

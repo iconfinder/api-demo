@@ -1,3 +1,12 @@
+/***
+ * Demo Application for the Iconfinder API.
+ *
+ * Insert the Client Credentials you got when you registered your app.
+ * If you haven't registered an app yet, go to https://www.iconfinder.com/account/applications
+ */ 
+
+
+
 var express = require('express');
 var app = express();
 var request = require('request');

@@ -12,7 +12,7 @@ var app = express();
 var request = require('request');
 
 
-app.use(express.static('./public'));
+app.use(express.static('../public'));
 
 app.get('/refresh', function (req, res) {
 
@@ -22,8 +22,8 @@ app.get('/refresh', function (req, res) {
     		nf_token_url,
     		{ form:{ 
 			grant_type:'jwt_bearer',
-			client_id: '<< INSERT YOUR OWN CLIENT_ID HERE >>',
-			client_secret: '<< INSERT YOUR OWN CLIENT_SECRET HERE >>'
+			client_id: 'wWNVskb4hnvfOyIyVeQoUKbg0NpnRaq9C6TLQ4HlWTsbmpD0R6EsVbFP8rQsBFdC',
+			client_secret: '2tGQQImXoijycRXx2ZlhJ1a5vhoE5DndEGcTwzIN8WVPb10rIK5WeAprLJq1d6x8'
 		}},
     		function (error, response, body) {
         		if (!error && response.statusCode == 200) {

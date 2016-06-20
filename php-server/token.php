@@ -19,12 +19,12 @@
 	// return JWT to requesting app
 	if($result == FALSE) {
 		// Something went wrong.
-		echo json_encode(["error" => "CURL request failed."]);
+		echo json_encode(array("error" => "CURL request failed."));
 	}
 	else {
 	    $result_decoded = json_decode($result);
 		
-		if(array_key_exists("error", $result_decoded) || !array_key_exists("access_token", $result_decoded)) {
+		if(array_key_exists("error", $result_decoded) or !array_key_exists("access_token", $result_decoded)) {
 			// Use this for additional error handling.
 			echo $result;
 		}

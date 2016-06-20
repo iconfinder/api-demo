@@ -1,14 +1,49 @@
 var app = {
     downloads: [],
 
+    token: function() {
+        if( ! Cookies.get('token') ) {
+            $.ajax({
+                url: 'http://iconsearcher.com/refresh.php',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function(response) {
+                    if( response.access_token ) {
+                        var token = response.access_token;
+                        var data = token.split('.');
+                        var payload = JSON.parse(atob(data[1]));
+
+            		    // subtract 2 seconds to take slow reponse times into account
+            		    var ttl = (payload.exp - payload.iat) * 1000 - 2 * 1000;
+                        var expires_unix_time = Date.now() + ttl;
+                        var expires = new Date(expires_unix_time);
+
+                        Cookies.set('token', token, { expires: expires });
+                    }
+                },
+                complete: function(result) {
+                    app.consoleLog(this, result.responseJSON);
+                }
+            });
+        }
+
+        return Cookies.get('token');
+    },
+
     api: function(endpoint) {
         endpoint = endpoint || '';
         return 'https://api.iconfinder.com/v2/' + endpoint;
     },
 
-    consoleLog: function(data) {
+    consoleLog: function(request, response) {
         var template = $('#log-template').html();
         var compile = _.template(template);
+        var data = {
+            type: request.type,
+            url: request.url,
+            response: JSON.stringify(response, null, 2)
+        };
 
         $('#console .log').html(compile(data));
     },
@@ -26,14 +61,17 @@ var app = {
 
             app.indicateLoading(true);
 
-            $.getJSON(app.api('icons/search?' + query), function(result) {
-                app.renderResults(result);
-                app.indicateLoading(false);
-                app.consoleLog({
-                    type: this.type,
-                    url: this.url,
-                    response: JSON.stringify(result, null, 2)
-                });
+            $.ajax({
+                url: app.api('icons/search?' + query),
+                type: 'GET',
+                headers: {
+                    'Authorization': 'JWT ' + app.token()
+                },
+                complete: function(result) {
+                    app.renderResults(result.responseJSON);
+                    app.indicateLoading(false);
+                    app.consoleLog(this, result.responseJSON);
+                }
             });
         }
 
@@ -95,13 +133,16 @@ var app = {
 
                 $(this).addClass('filled').html(newElement);
 
-                $.getJSON(app.api('icons/' + iconId), function(result) {
-                    app.increaseDownloads(iconId);
-                    app.consoleLog({
-                        type: this.type,
-                        url: this.url,
-                        response: JSON.stringify(result, null, 2)
-                    });
+                $.ajax({
+                    url: app.api('icons/' + iconId),
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'JWT ' + app.token()
+                    },
+                    complete: function(result) {
+                        app.increaseDownloads(iconId);
+                        app.consoleLog(this, result);
+                    }
                 });
             }
         });
@@ -115,6 +156,7 @@ var app = {
     },
 
     bindEvents: function() {
+        $(document).on('ready', app.token);
         $('#search').on('submit', app.search);
         $('#search input').on('focus', app.toggleResults);
         $('#search').on('change', 'input[type="checkbox"]', app.search);
@@ -130,7 +172,8 @@ var app = {
 };
 
 _.templateSettings = {
-    interpolate: /\{\{(.+?)\}\}/g
+    interpolate: /\{\{(.+?)\}\}/g,
+    escape: /\{\{-(.*?)\}\}/g
 };
 
 $.fn.serializeObject = function() {

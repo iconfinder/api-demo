@@ -3,7 +3,7 @@
  *
  * Insert the Client Credentials you got when you registered your app.
  * If you haven't registered an app yet, go to https://www.iconfinder.com/account/applications
- */ 
+ */
 
 
 
@@ -14,16 +14,16 @@ var request = require('request');
 
 app.use(express.static('../public'));
 
-app.get('/refresh', function (req, res) {
+app.get('/token', function (req, res) {
 
   	const nf_token_url = "https://iconfinder.com/api/v2/oauth2/token";
 
   	request.post(
     		nf_token_url,
-    		{ form:{ 
+    		{ form:{
 			grant_type:'jwt_bearer',
-			client_id: 'wWNVskb4hnvfOyIyVeQoUKbg0NpnRaq9C6TLQ4HlWTsbmpD0R6EsVbFP8rQsBFdC',
-			client_secret: '2tGQQImXoijycRXx2ZlhJ1a5vhoE5DndEGcTwzIN8WVPb10rIK5WeAprLJq1d6x8'
+			client_id: 'INSERT_CLIENT_ID',
+			client_secret: 'INSERT_CLIENT_SECRET'
 		}},
     		function (error, response, body) {
         		if (!error && response.statusCode == 200) {

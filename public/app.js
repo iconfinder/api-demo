@@ -4,7 +4,7 @@ var app = {
     token: function() {
         if( ! Cookies.get('token') ) {
             $.ajax({
-                url: '/refresh',
+                url: 'http://iconsearcher.com/refresh.php',
                 type: 'GET',
                 dataType: 'json',
                 async: false,

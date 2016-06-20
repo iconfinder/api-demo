@@ -61,17 +61,10 @@ var app = {
 
             app.indicateLoading(true);
 
-            $.ajax({
-                url: app.api('icons/search?' + query),
-                type: 'GET',
-                headers: {
-                    'Authorization': 'JWT ' + app.token()
-                },
-                complete: function(result) {
-                    app.renderResults(result.responseJSON);
-                    app.indicateLoading(false);
-                    app.consoleLog(this, result.responseJSON);
-                }
+            $.getJSON(app.api('icons/search?' + query), function(result) {
+                app.renderResults(result);
+                app.indicateLoading(false);
+                app.consoleLog(this, result);
             });
         }
 
@@ -128,31 +121,39 @@ var app = {
             accept: '.results img',
             hoverClass: 'active',
             drop: function(event, ui) {
-                var newElement = $(ui.draggable).clone().removeClass('ui-draggable-handle');
-                var iconId = newElement.data('icon-id');
+                var holder = $(this);
+                var preview = $(ui.draggable).clone().removeClass('ui-draggable-handle');
+                var iconId = $(ui.draggable).data('icon-id');
 
-                $(this).addClass('filled').html(newElement);
-
-                $.ajax({
-                    url: app.api('icons/' + iconId),
-                    type: 'GET',
-                    headers: {
-                        'Authorization': 'JWT ' + app.token()
-                    },
-                    complete: function(result) {
-                        app.increaseDownloads(iconId);
-                        app.consoleLog(this, result);
-                    }
-                });
+                holder.addClass('filled').html(preview);
+                app.getIcon(iconId, holder);
             }
         });
     },
 
-    increaseDownloads: function(iconId) {
-        app.downloads.push(iconId);
-        app.downloads = _.uniq(app.downloads);
+    getIcon: function(id, holder) {
+        $.getJSON(app.api('icons/' + id), function(result) {
+            var url = result.vector_sizes[0].formats[0].download_url;
 
-        $('#downloads strong').html(app.downloads.length);
+            app.download(url, holder);
+            app.downloads.push(id);
+            app.downloads = _.uniq(app.downloads);
+
+            $('#downloads strong').html(app.downloads.length);
+            app.consoleLog(this, result);
+        });
+    },
+
+    download: function(url, holder) {
+        $.ajax({
+            url: app.api(url),
+            type: 'GET',
+            success: function(data) {
+                var svg = $(data).find('svg').prop('outerHTML');
+
+                holder.find('img').attr('src', 'data:image/svg+xml;utf8,' + svg);
+            }
+        });
     },
 
     bindEvents: function() {
@@ -191,6 +192,12 @@ $.fn.serializeObject = function() {
     });
     return o;
 };
+
+$.ajaxSetup({
+    headers: {
+        'Authorization': 'JWT ' + app.token()
+    }
+});
 
 $(function() {
     app.init();

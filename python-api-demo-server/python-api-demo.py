@@ -5,7 +5,7 @@ app = flask.Flask(__name__)
 
 CLIENT_ID = 'wWNVskb4hnvfOyIyVeQoUKbg0NpnRaq9C6TLQ4HlWTsbmpD0R6EsVbFP8rQsBFdC'
 CLIENT_SECRET = '2tGQQImXoijycRXx2ZlhJ1a5vhoE5DndEGcTwzIN8WVPb10rIK5WeAprLJq1d6x8'
-AUTH_TOKEN_URL = "http://iconfinder.dev/api/v2/oauth2/token"
+AUTH_TOKEN_URL = "https://iconfinder.com/api/v2/oauth2/token"
 
 
 @app.route('/token')

@@ -33,7 +33,7 @@ var app = {
 
     api: function(endpoint) {
         endpoint = endpoint || '';
-        return 'http://api.iconfinder.dev/v2/' + endpoint;
+        return 'https://api.iconfinder.com/v2/' + endpoint;
     },
 
     consoleLog: function(request, response) {

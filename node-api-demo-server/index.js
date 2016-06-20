@@ -16,7 +16,7 @@ app.use(express.static('../public'));
 
 app.get('/refresh', function (req, res) {
 
-  	const nf_token_url = "http://iconfinder.dev/api/v2/oauth2/token";
+  	const nf_token_url = "https://iconfinder.com/api/v2/oauth2/token";
 
   	request.post(
     		nf_token_url,

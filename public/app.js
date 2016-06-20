@@ -2,31 +2,33 @@ var app = {
     downloads: [],
 
     token: function() {
-        return Cookies.get('token') || $.ajax({
-            url: '/refresh',
-            type: 'GET',
-            dataType: 'json',
-            global: false,
-            success: function(response) {
-                if( response.access_token ) {
-                    var token = response.access_token;
-                    var data = token.split('.');
-                    var payload = JSON.parse(atob(data[1]));
+        if( ! Cookies.get('token') ) {
+            $.ajax({
+                url: '/refresh',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function(response) {
+                    if( response.access_token ) {
+                        var token = response.access_token;
+                        var data = token.split('.');
+                        var payload = JSON.parse(atob(data[1]));
 
-        		    // subtract 2 seconds to take slow reponse times into account
-        		    var ttl = (payload.exp - payload.iat) * 1000 - 2 * 1000;
-                    var expires_unix_time = Date.now() + ttl;
-                    var expires = new Date(expires_unix_time);
+            		    // subtract 2 seconds to take slow reponse times into account
+            		    var ttl = (payload.exp - payload.iat) * 1000 - 2 * 1000;
+                        var expires_unix_time = Date.now() + ttl;
+                        var expires = new Date(expires_unix_time);
 
-                    Cookies.set('token', token, { expires: expires });
-
-                    return token;
+                        Cookies.set('token', token, { expires: expires });
+                    }
+                },
+                complete: function(result) {
+                    app.consoleLog(this, result.responseJSON);
                 }
-            },
-            complete: function(result) {
-                app.consoleLog(this, result.responseJSON);
-            }
-        });
+            });
+        }
+
+        return Cookies.get('token');
     },
 
     api: function(endpoint) {

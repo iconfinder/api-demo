@@ -18,9 +18,6 @@ var app = {
                     var expires_unix_time = Date.now() + ttl;
                     var expires = new Date(expires_unix_time);
 
-        		    console.log("expires", new Date(expires_unix_time));
-        		    console.log("now", new Date(Date.now()));
-
                     Cookies.set('token', token, { expires: expires });
 
                     return token;
@@ -61,8 +58,6 @@ var app = {
             var query = $('#search').serialize();
 
             app.indicateLoading(true);
-
-	    console.log(typeof app.token());
 
             $.ajax({
                 url: app.api('icons/search?' + query),

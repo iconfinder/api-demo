@@ -5,7 +5,7 @@ app = flask.Flask(__name__)
 
 CLIENT_ID = 'INSERT_CLIENT_ID'
 CLIENT_SECRET = 'INSERT_CLIENT_SECRET'
-AUTH_TOKEN_URL = "https://iconfinder.com/api/v2/oauth2/token"
+AUTH_TOKEN_URL = "https://iconfinder.com/api/v3/oauth2/token"
 
 
 @app.route('/token')

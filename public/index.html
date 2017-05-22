@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Iconfinder API demo</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.0.0/normalize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="app.css">
+    </head>
+    <body>
+
+        <main>
+            <header class="clearfix">
+                <div class="pull-left">
+                    <a href="https://www.iconfinder.com/"><img src="logo.svg" alt="Iconfinder" height="30"></a>
+                    <h1>API demo</h1>
+                </div>
+
+                <div class="pull-right">
+                    <ul>
+                        <li><a href="http://developer.iconfinder.com/">API Documentation</a></li>
+                        <li><a href="mailto:api@iconfinder.com">Contact us</a></li>
+                    </ul>
+                </div>
+            </header>
+
+
+            <div id="canvas">
+                <div class="app-frame">
+                    <div class="app-header">
+                        <div class="stop-light">
+                            <i class="fa fa-circle-o"></i>
+                            <i class="fa fa-circle-o"></i>
+                            <i class="fa fa-circle-o"></i>
+                        </div>
+
+                        <h5>ACME Diagrams</h5>
+                    </div>      <!-- .app-header -->
+
+                    <div class="app-body">
+                        <form id="search" class="clearfix">
+                            <div class="pull-left">
+                                <input type="text" id="query" name="query" placeholder="Search for icons..." autofocus>
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+
+                            <div class="pull-right">
+                                <label><input type="checkbox" name="premium" value="1"> Premium only</label>
+                                <label><input type="checkbox" name="vector" value="1"> Vector only</label>
+                            </div>
+
+                            <input type="hidden" name="count" value="30">
+                        </form>
+
+                        <div class="results hide">
+                        </div>      <!-- .results -->
+
+                        <div class="diagram">
+                            <div class="placeholder" id="figure-1"></div>
+                            <div class="placeholder" id="figure-2"></div>
+                            <div class="placeholder" id="figure-3"></div>
+                            <div class="placeholder" id="figure-4"></div>
+                        </div>
+                    </div>      <!-- .app-body -->
+                </div>      <!-- .app-frame -->
+            </div>      <!-- .canvas -->
+        </main>
+
+
+        <aside id="console">
+            <header>
+                <h5 id="downloads" class="pull-right">Unique downloads: <strong>0</strong></h5>
+                <h3>Console output</h3>
+            </header>
+
+            <div class="log">
+            </div>      <!-- .log -->
+        </aside>
+
+
+        <button type="button" class="toggle-console"><i class="fa fa-bars"></i></button>
+
+
+        <script type="text/template" id="result-template">
+            <img src="{{ url }}" alt="" width="64" data-icon-id="{{ icon_id }}">
+        </script>
+
+        <script type="text/template" id="log-template">
+            <h4>Request:</h4>
+            <pre>{{ type }} {{ url }}</pre>
+            <h4>Response:</h4>
+            <pre>{{- response }}</pre>
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.2/js.cookie.min.js"></script>
+        <script src="app.js"></script>
+
+    </body>
+</html>

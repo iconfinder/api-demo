@@ -4,7 +4,7 @@
 	$CLIENT_SECRET = "<< INSERT CLIENT SECRET HERE >>";
 	
 	// Request token
-	$AUTH_URL = "https://www.iconfinder.com/api/v2/oauth2/token";
+	$AUTH_URL = "https://www.iconfinder.com/api/v3/oauth2/token";
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $AUTH_URL);
 	curl_setopt($ch, CURLOPT_POST, 1);

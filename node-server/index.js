@@ -16,25 +16,23 @@ app.use(express.static('../public'));
 
 app.get('/token', function (req, res) {
 
-  	const nf_token_url = "https://iconfinder.com/api/v3/oauth2/token";
+  	const nf_token_url = "https://www.iconfinder.com/api/v3/oauth2/token";
 
-  	request.post(
-    		nf_token_url,
-    		{ form:{
+  	request.post(nf_token_url, {
+        form: {
 			grant_type:'jwt_bearer',
 			client_id: 'INSERT_CLIENT_ID',
 			client_secret: 'INSERT_CLIENT_SECRET'
-		}},
-    		function (error, response, body) {
-        		if (!error && response.statusCode == 200) {
-            			console.log(body);
-				delete body["token_type"];
-				res.send(body);
-        		} else {
-				console.log('error');
-			}
-    	}
-	);
+	    }
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+			console.log(body);
+			delete body["token_type"];
+			res.send(body);
+		} else {
+			console.log(error, response, body);
+		}
+	});
 
 });
 

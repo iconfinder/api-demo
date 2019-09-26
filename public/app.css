@@ -151,7 +151,8 @@ main ul a:hover {
     background: 0;
     color: #999;
     padding: 9px;
-    margin-left: -45px;
+    position: relative;
+    left: -45px;
 }
 
 #search button:hover {

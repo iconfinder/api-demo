@@ -151,7 +151,7 @@ var app = {
             success: function(data) {
                 var svg = $(data).find('svg').prop('outerHTML');
 
-                holder.find('img').attr('src', 'data:image/svg+xml,' + svg);
+                holder.find('img').attr('src', 'data:image/svg+xml;utf8,' + encodeURI(svg));
             }
         });
     },

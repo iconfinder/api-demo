@@ -4,7 +4,7 @@ var app = {
     token: function() {
         if( ! Cookies.get('token') ) {
             $.ajax({
-                url: 'http://iconsearcher.com/refresh.php',
+                url: 'https://iconfinder-jwt.herokuapp.com/',
                 type: 'GET',
                 dataType: 'json',
                 async: false,

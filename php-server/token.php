@@ -1,7 +1,7 @@
 <?php
 	// Get the client id and secret by registering your application on https://www.iconfinder.com/account/applications
-	$CLIENT_ID = "<< INSERT CLIENT ID HERE >>";
-	$CLIENT_SECRET = "<< INSERT CLIENT SECRET HERE >>";
+	$CLIENT_ID = getenv('CLIENT_ID');
+	$CLIENT_SECRET = getenv('CLIENT_SECRET');
 	
 	// Request token
 	$AUTH_URL = "https://www.iconfinder.com/api/v3/oauth2/token";

@@ -1,5 +1,5 @@
 import flask
-import requests as rq
+import requests
 
 app = flask.Flask(__name__)
 
@@ -17,7 +17,7 @@ def token():
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET
     }
-    response = rq.post(AUTH_TOKEN_URL, data)
+    response = requests.post(AUTH_TOKEN_URL, data)
 
     # handle response
     if response.status_code == 200:

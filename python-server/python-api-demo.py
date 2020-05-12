@@ -3,8 +3,8 @@ import requests
 
 app = flask.Flask(__name__)
 
-CLIENT_ID = 'INSERT_CLIENT_ID'
-CLIENT_SECRET = 'INSERT_CLIENT_SECRET'
+CLIENT_ID = os.environ.get('CLIENT_ID')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 AUTH_TOKEN_URL = "https://www.iconfinder.com/api/v3/oauth2/token"
 
 

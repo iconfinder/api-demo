@@ -1,39 +1,9 @@
 var app = {
     downloads: [],
 
-    token: function() {
-        if( ! Cookies.get('token') ) {
-            $.ajax({
-                url: 'https://iconfinder-jwt.herokuapp.com/',
-                type: 'GET',
-                dataType: 'json',
-                async: false,
-                success: function(response) {
-                    if( response.access_token ) {
-                        var token = response.access_token;
-                        var data = token.split('.');
-                        var payload = JSON.parse(atob(data[1]));
-
-            		    // subtract 2 seconds to take slow reponse times into account
-            		    var ttl = (payload.exp - payload.iat) * 1000 - 2 * 1000;
-                        var expires_unix_time = Date.now() + ttl;
-                        var expires = new Date(expires_unix_time);
-
-                        Cookies.set('token', token, { expires: expires });
-                    }
-                },
-                complete: function(result) {
-                    app.consoleLog(this, result.responseJSON);
-                }
-            });
-        }
-
-        return Cookies.get('token');
-    },
-
     api: function(endpoint) {
         endpoint = endpoint || '';
-        return 'https://api.iconfinder.com/v3/' + endpoint;
+        return 'https://iconfinder-api-auth.herokuapp.com/v4/' + endpoint;
     },
 
     consoleLog: function(request, response) {
@@ -157,7 +127,6 @@ var app = {
     },
 
     bindEvents: function() {
-        $(document).on('ready', app.token);
         $('#search').on('submit', app.search);
         $('#search input').on('focus', app.toggleResults);
         $('#search').on('change', 'input[type="checkbox"]', app.search);
@@ -192,12 +161,6 @@ $.fn.serializeObject = function() {
     });
     return o;
 };
-
-$.ajaxSetup({
-    headers: {
-        'Authorization': 'JWT ' + app.token()
-    }
-});
 
 $(function() {
     app.init();

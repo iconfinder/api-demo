@@ -3,6 +3,8 @@ var app = {
 
     api: function(endpoint) {
         endpoint = endpoint || '';
+        endpoint = endpoint.replace('https://api.iconfinder.com/v4/', '');
+
         return 'https://iconfinder-api-auth.herokuapp.com/v4/' + endpoint;
     },
 
@@ -116,7 +118,7 @@ var app = {
 
     download: function(url, holder) {
         $.ajax({
-            url: url,
+            url: app.api(uri),
             type: 'GET',
             success: function(data) {
                 var svg = $(data).find('svg').prop('outerHTML');

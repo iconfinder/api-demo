@@ -116,7 +116,7 @@ var app = {
 
     download: function(url, holder) {
         $.ajax({
-            url: app.api(url),
+            url: url,
             type: 'GET',
             success: function(data) {
                 var svg = $(data).find('svg').prop('outerHTML');
